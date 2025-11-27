@@ -18,6 +18,7 @@ class Product
                     c.name as categoryName,
                     p.price,
                     p.noInStock,
+                    p.producer,
                     p.description
                   FROM " . $this->table_name . " p
                   LEFT JOIN Categories c ON p.categoryId = c.id
@@ -36,6 +37,7 @@ class Product
                 "categoryName" => $row['categoryName'],
                 "price" => (float)$row['price'],
                 "noInStock" => (int)$row['noInStock'],
+                "producer" => $row['producer'],
                 "description" => $row['description'],
                 "images" => $this->getImages($row['id']),
                 "qna" => $this->getQnA($row['id']),
@@ -56,6 +58,7 @@ class Product
                     c.name as categoryName,
                     p.price,
                     p.noInStock,
+                    p.producer,
                     p.description
                   FROM " . $this->table_name . " p
                   LEFT JOIN Categories c ON p.categoryId = c.id
@@ -74,6 +77,7 @@ class Product
                 "categoryName" => $row['categoryName'],
                 "price" => (float)$row['price'],
                 "noInStock" => (int)$row['noInStock'],
+                "producer" => $row['producer'],
                 "description" => $row['description'],
                 "images" => $this->getImages($row['id']),
                 "qna" => $this->getQnA($row['id']),

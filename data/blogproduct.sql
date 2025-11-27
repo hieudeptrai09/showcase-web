@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 26, 2025 at 05:32 PM
+-- Generation Time: Nov 27, 2025 at 04:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -217,6 +217,7 @@ CREATE TABLE `products` (
   `categoryId` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `noInStock` int(11) NOT NULL DEFAULT 0,
+  `producer` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -224,17 +225,17 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `categoryId`, `price`, `noInStock`, `description`) VALUES
-(1, 'Wireless Headphones', 1, 79.99, 50, 'High-quality wireless headphones with noise cancellation and 30-hour battery life.'),
-(2, 'Smartphone Stand', 1, 15.99, 120, 'Adjustable aluminum stand compatible with all smartphone models.'),
-(3, 'Cotton T-Shirt', 2, 19.99, 200, 'Comfortable 100% cotton t-shirt available in multiple colors.'),
-(4, 'Denim Jeans', 2, 49.99, 85, 'Classic fit denim jeans with stretch fabric for maximum comfort.'),
-(5, 'Garden Tool Set', 3, 34.99, 45, 'Complete 10-piece garden tool set with carrying case.'),
-(6, 'Indoor Plant Pot', 3, 12.99, 150, 'Ceramic plant pot with drainage hole and saucer, perfect for small to medium plants.'),
-(7, 'Yoga Mat', 4, 29.99, 75, 'Non-slip yoga mat with extra cushioning, includes carrying strap.'),
-(8, 'Running Shoes', 4, 89.99, 60, 'Lightweight running shoes with breathable mesh and cushioned sole.'),
-(9, 'Mystery Novel', 5, 14.99, 100, 'Bestselling mystery thriller that will keep you on the edge of your seat.'),
-(10, 'Cookbook', 5, 24.99, 55, 'Collection of 200 easy and delicious recipes for home cooking.');
+INSERT INTO `products` (`id`, `name`, `categoryId`, `price`, `noInStock`, `producer`, `description`) VALUES
+(1, 'Wireless Headphones', 1, 79.99, 50, 'SoundTech Pro', 'High-quality wireless headphones with noise cancellation and 30-hour battery life.'),
+(2, 'Smartphone Stand', 1, 15.99, 120, 'TechGear', 'Adjustable aluminum stand compatible with all smartphone models.'),
+(3, 'Cotton T-Shirt', 2, 19.99, 200, 'ComfortWear', 'Comfortable 100% cotton t-shirt available in multiple colors.'),
+(4, 'Denim Jeans', 2, 49.99, 85, 'DenimCo', 'Classic fit denim jeans with stretch fabric for maximum comfort.'),
+(5, 'Garden Tool Set', 3, 34.99, 45, 'GreenThumb Tools', 'Complete 10-piece garden tool set with carrying case.'),
+(6, 'Indoor Plant Pot', 3, 12.99, 150, 'HomeGarden Plus', 'Ceramic plant pot with drainage hole and saucer, perfect for small to medium plants.'),
+(7, 'Yoga Mat', 4, 29.99, 75, 'FitnessPro', 'Non-slip yoga mat with extra cushioning, includes carrying strap.'),
+(8, 'Running Shoes', 4, 89.99, 60, 'SportMax', 'Lightweight running shoes with breathable mesh and cushioned sole.'),
+(9, 'Mystery Novel', 5, 14.99, 100, 'Penguin Books', 'Bestselling mystery thriller that will keep you on the edge of your seat.'),
+(10, 'Cookbook', 5, 24.99, 55, 'Kitchen Publishing', 'Collection of 200 easy and delicious recipes for home cooking.');
 
 --
 -- Indexes for dumped tables
