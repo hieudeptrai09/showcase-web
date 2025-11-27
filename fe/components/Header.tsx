@@ -86,12 +86,6 @@ export default function Header() {
             >
               Chỉ đường
             </Link>
-            <Link
-              href="/contact"
-              className="text-gray-700 hover:text-primary transition-colors"
-            >
-              Liên hệ
-            </Link>
           </nav>
 
           {/* Mobile Menu Button */}

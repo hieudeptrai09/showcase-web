@@ -17,7 +17,7 @@ export default function Home() {
             <p className="text-lg mb-8 text-blue-100">{shopInfo.description}</p>
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/catalog"
+                href="/product"
                 className="btn-primary bg-white text-primary hover:bg-gray-100"
               >
                 Xem sản phẩm
@@ -46,7 +46,7 @@ export default function Home() {
             </p>
           </div>
           <Link
-            href="/catalog"
+            href="/product"
             className="text-primary hover:underline flex items-center"
           >
             Xem tất cả

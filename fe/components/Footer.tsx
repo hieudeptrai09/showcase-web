@@ -82,14 +82,6 @@ export default function Footer() {
                   Chỉ đường
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  Liên hệ
-                </Link>
-              </li>
             </ul>
           </div>
 
