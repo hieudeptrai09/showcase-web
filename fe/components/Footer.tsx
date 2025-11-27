@@ -60,7 +60,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/catalog"
+                  href="/product"
                   className="text-sm hover:text-white transition-colors"
                 >
                   Sản phẩm

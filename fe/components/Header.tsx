@@ -12,7 +12,7 @@ export default function Header() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/catalog?search=${encodeURIComponent(
+      window.location.href = `/product?search=${encodeURIComponent(
         searchQuery
       )}`;
     }
@@ -69,7 +69,7 @@ export default function Header() {
               Giới thiệu
             </Link>
             <Link
-              href="/catalog"
+              href="/product"
               className="text-gray-700 hover:text-primary transition-colors"
             >
               Sản phẩm
@@ -140,7 +140,7 @@ export default function Header() {
               Giới thiệu
             </Link>
             <Link
-              href="/catalog"
+              href="/product"
               className="text-gray-700 hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
