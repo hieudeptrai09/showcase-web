@@ -5,9 +5,10 @@ import { fetchBlog } from "@/lib/api";
 export default async function BlogDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const blog = await fetchBlog(parseInt(params.id));
+  const { id } = await params;
+  const blog = await fetchBlog(parseInt(id));
 
   if (!blog) {
     notFound();

@@ -5,9 +5,10 @@ import { fetchProduct, fetchProducts } from "@/lib/api";
 export default async function ProductDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const product = await fetchProduct(parseInt(params.id));
+  const { id } = await params;
+  const product = await fetchProduct(parseInt(id));
 
   if (!product) {
     notFound();
