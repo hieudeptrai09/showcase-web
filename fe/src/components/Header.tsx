@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { Search, ShoppingCart, Menu, X } from "lucide-react";
 import { useState } from "react";
-import { shopInfo } from "@/lib/data";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const pathName = usePathname();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +29,7 @@ export default function Header() {
               <ShoppingCart className="text-white" size={24} />
             </div>
             <span className="text-2xl font-bold text-primary hidden sm:block">
-              {shopInfo.name}
+              GameHub Store
             </span>
           </Link>
 
@@ -58,31 +59,41 @@ export default function Header() {
           <nav className="hidden lg:flex items-center space-x-6">
             <Link
               href="/"
-              className="text-gray-700 hover:text-primary transition-colors"
+              className={`text-gray-700 hover:text-secondary transition-colors ${
+                pathName === "/" && "text-primary"
+              }`}
             >
               Trang chủ
             </Link>
             <Link
               href="/about"
-              className="text-gray-700 hover:text-primary transition-colors"
+              className={`text-gray-700 hover:text-secondary transition-colors ${
+                pathName === "/about" && "text-primary"
+              }`}
             >
               Giới thiệu
             </Link>
             <Link
               href="/product"
-              className="text-gray-700 hover:text-primary transition-colors"
+              className={`text-gray-700 hover:text-secondary transition-colors ${
+                pathName === "/product" && "text-primary"
+              }`}
             >
               Sản phẩm
             </Link>
             <Link
               href="/blog"
-              className="text-gray-700 hover:text-primary transition-colors"
+              className={`text-gray-700 hover:text-secondary transition-colors ${
+                pathName === "/blog" && "text-primary"
+              }`}
             >
               Blog
             </Link>
             <Link
               href="/maps"
-              className="text-gray-700 hover:text-primary transition-colors"
+              className={`text-gray-700 hover:text-secondary transition-colors ${
+                pathName === "/maps" && "text-primary"
+              }`}
             >
               Chỉ đường
             </Link>
@@ -121,45 +132,48 @@ export default function Header() {
           <nav className="lg:hidden mt-4 pb-4 flex flex-col space-y-3 border-t pt-4">
             <Link
               href="/"
-              className="text-gray-700 hover:text-primary transition-colors"
+              className={`text-gray-700 hover:text-secondary transition-colors ${
+                pathName === "/" && "text-primary"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Trang chủ
             </Link>
             <Link
               href="/about"
-              className="text-gray-700 hover:text-primary transition-colors"
+              className={`text-gray-700 hover:text-secondary transition-colors ${
+                pathName === "/about" && "text-primary"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Giới thiệu
             </Link>
             <Link
               href="/product"
-              className="text-gray-700 hover:text-primary transition-colors"
+              className={`text-gray-700 hover:text-secondary transition-colors ${
+                pathName === "/product" && "text-primary"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Sản phẩm
             </Link>
             <Link
               href="/blog"
-              className="text-gray-700 hover:text-primary transition-colors"
+              className={`text-gray-700 hover:text-secondary transition-colors ${
+                pathName === "/blog" && "text-primary"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Blog
             </Link>
             <Link
               href="/maps"
-              className="text-gray-700 hover:text-primary transition-colors"
+              className={`text-gray-700 hover:text-secondary transition-colors ${
+                pathName === "/maps" && "text-primary"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Chỉ đường
-            </Link>
-            <Link
-              href="/contact"
-              className="text-gray-700 hover:text-primary transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Liên hệ
             </Link>
           </nav>
         )}
