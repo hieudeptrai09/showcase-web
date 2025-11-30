@@ -7,6 +7,7 @@ import SearchBar from "./SearchBar";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 import MobileMenuButton from "./MobileMenuButton";
+import ContactBanner from "./ContactBanner";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,6 +25,8 @@ export default function Header() {
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
+      <ContactBanner />
+
       <div className="container-custom py-4">
         <div className="flex items-center justify-between gap-4">
           <Logo />
