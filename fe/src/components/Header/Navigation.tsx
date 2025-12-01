@@ -1,23 +1,11 @@
+import { navLinks } from "@/lib/navigationInfo";
 import Link from "next/link";
-
-interface NavLinkItem {
-  href: string;
-  label: string;
-}
 
 interface NavigationProps {
   currentPath: string;
   onLinkClick?: () => void;
   className?: string;
 }
-
-const navLinks: NavLinkItem[] = [
-  { href: "/", label: "Trang chủ" },
-  { href: "/about", label: "Giới thiệu" },
-  { href: "/product", label: "Sản phẩm" },
-  { href: "/blog", label: "Blog" },
-  { href: "/maps", label: "Chỉ đường" },
-];
 
 export default function Navigation({
   currentPath,
