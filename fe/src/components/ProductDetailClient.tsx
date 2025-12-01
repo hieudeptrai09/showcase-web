@@ -8,10 +8,10 @@ import {
   ChevronLeft,
   ChevronRight,
   Phone,
-  Mail,
+  Facebook,
 } from "lucide-react";
 import { ApiProduct } from "@/lib/api";
-import { shopInfo } from "@/lib/data";
+import { shopInfo } from "@/lib/shopInfo";
 
 interface ProductDetailClientProps {
   product: ApiProduct;
@@ -149,22 +149,22 @@ export default function ProductDetailClient({
           </div>
 
           {/* Contact Button */}
-          {/* <div className="space-y-3 mb-8">
+          <div className="space-y-3 mb-8">
             <a
-              href={`tel:${shopInfo.phone}`}
+              href={`tel:${shopInfo.phoneUrl}`}
               className="btn-primary w-full flex items-center justify-center"
             >
               <Phone size={20} className="mr-2" />
               Liên hệ: {shopInfo.phone}
             </a>
             <a
-              href={`mailto:${shopInfo.email}?subject=Hỏi về ${product.name}`}
+              href={shopInfo.facebook}
               className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors w-full flex items-center justify-center"
             >
-              <Mail size={20} className="mr-2" />
-              Email: {shopInfo.email}
+              <Facebook size={20} className="mr-2" />
+              Facebook: {shopInfo.facebook}
             </a>
-          </div> */}
+          </div>
 
           <div className="border-t pt-6">
             <h3 className="text-lg font-semibold mb-2">Danh mục</h3>

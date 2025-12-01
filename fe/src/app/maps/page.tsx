@@ -1,4 +1,4 @@
-import { shopInfo } from "@/lib/data";
+import { shopInfo } from "@/lib/shopInfo";
 import { MapPin, Phone, Clock, Navigation } from "lucide-react";
 
 export default function MapsPage() {

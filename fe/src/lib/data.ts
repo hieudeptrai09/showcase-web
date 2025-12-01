@@ -315,23 +315,3 @@ export const blogPosts: BlogPost[] = [
     image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=800",
   },
 ];
-
-export const shopInfo = {
-  name: "GameHub Store",
-  tagline: "Thiên đường gaming gear cho mọi game thủ",
-  description:
-    "Chuyên cung cấp các sản phẩm gaming chính hãng, chất lượng cao với giá cả hợp lý. Đội ngũ tư vấn nhiệt tình, chuyên nghiệp.",
-  address: "123 Đường Láng, Đống Đa, Hà Nội",
-  phone: "024-3456-7890",
-  email: "contact@gamehubstore.vn",
-  businessLicense: "0123456789",
-  founded: "2020",
-  googleMapsUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.6073094443147!2d105.80894731533406!3d21.006875594301785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ad5568f0c0a9%3A0x64b5c6d5c5e3e2d7!2zTMOgbmcgSMOgLCBIw6AgTuG7mWk!5e0!3m2!1svi!2s!4v1234567890123!5m2!1svi!2s",
-  social: {
-    facebook: "https://facebook.com/gamehubstore",
-    instagram: "https://instagram.com/gamehubstore",
-    youtube: "https://youtube.com/@gamehubstore",
-    tiktok: "https://tiktok.com/@gamehubstore",
-  },
-};

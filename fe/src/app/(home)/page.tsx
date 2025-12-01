@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { products, shopInfo } from "@/lib/data";
+import { products } from "@/lib/data";
 import { ArrowRight, MapPin } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
+import { shopInfo } from "@/lib/shopInfo";
 
 export default function Home() {
   const featuredProducts = products.filter((p) => p.featured).slice(0, 6);

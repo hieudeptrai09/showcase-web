@@ -27,7 +27,7 @@ export default function Header() {
     <header className="bg-white shadow-md sticky top-0 z-50">
       <ContactBanner />
 
-      <div className="container-custom py-4">
+      <div className="container-custom py-2">
         <div className="flex items-center justify-between gap-4">
           <Logo />
 

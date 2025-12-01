@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { shopInfo } from "@/lib/shopInfo";
 
 export const metadata: Metadata = {
-  title: "GameHub Store - Thiên đường gaming gear",
-  description:
-    "Chuyên cung cấp các sản phẩm gaming chính hãng, chất lượng cao với giá cả hợp lý",
+  title: `${shopInfo.name} - ${shopInfo.tagline}`,
+  description: `${shopInfo.description}`,
 };
 
 export default function RootLayout({
@@ -16,6 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi">
+      <head>
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+      </head>
       <body className="font-sans antialiased">
         <Header />
         <main className="min-h-screen">{children}</main>

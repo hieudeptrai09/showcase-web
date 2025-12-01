@@ -30,7 +30,7 @@ export default function Navigation({
         <Link
           key={link.href}
           href={link.href}
-          className={`text-gray-700 hover:text-secondary transition-colors ${
+          className={`text-gray-700 hover:font-semibold ${
             currentPath === link.href && "text-primary"
           }`}
           onClick={onLinkClick}

@@ -1,4 +1,4 @@
-import { shopInfo } from "@/lib/data";
+import { shopInfo } from "@/lib/shopInfo";
 import { Award, Users, Target, Heart } from "lucide-react";
 
 export default function AboutPage() {
