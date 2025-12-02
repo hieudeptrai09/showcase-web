@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Calendar, User, ThumbsUp, ThumbsDown, ArrowLeft } from "lucide-react";
 import { ApiBlog } from "@/lib/api";
+import LikeAndDislike from "./LikeAndDislike";
 
 interface BlogDetailClientProps {
   blog: ApiBlog;
@@ -51,7 +52,6 @@ export default function BlogDetailClient({ blog }: BlogDetailClientProps) {
       </Link>
 
       <article className="bg-white rounded-lg shadow-md overflow-hidden">
-        {/* Hero Image */}
         <div className="h-96 bg-gray-200 overflow-hidden">
           <img
             src={blog.heroImage || "https://via.placeholder.com/1200x600"}
@@ -61,12 +61,10 @@ export default function BlogDetailClient({ blog }: BlogDetailClientProps) {
         </div>
 
         <div className="p-8 md:p-12">
-          {/* Title */}
           <h1 className="text-4xl font-bold text-gray-800 mb-6">
             {blog.title}
           </h1>
 
-          {/* Meta Info */}
           <div className="flex items-center text-gray-500 mb-6 space-x-6">
             <div className="flex items-center">
               <Calendar size={20} className="mr-2" />
@@ -82,66 +80,32 @@ export default function BlogDetailClient({ blog }: BlogDetailClientProps) {
             </div>
           </div>
 
-          {/* Like/Dislike Buttons */}
-          <div className="flex items-center space-x-4 mb-8 pb-8 border-b">
-            <button
-              onClick={handleLike}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-                userVote === "like"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-gray-100 text-gray-700 hover:bg-green-50"
-              }`}
-            >
-              <ThumbsUp size={20} />
-              <span className="font-semibold">{likes}</span>
-            </button>
-            <button
-              onClick={handleDislike}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-                userVote === "dislike"
-                  ? "bg-red-100 text-red-700"
-                  : "bg-gray-100 text-gray-700 hover:bg-red-50"
-              }`}
-            >
-              <ThumbsDown size={20} />
-            </button>
+          <div className="flex items-center space-x-4 mb-8 pb-8">
+            <LikeAndDislike
+              likes={likes}
+              userVote={userVote}
+              handleLike={handleLike}
+              handleDislike={handleDislike}
+            />
           </div>
 
-          {/* Content */}
           <div
             className="prose prose-lg max-w-none"
             dangerouslySetInnerHTML={{ __html: blog.content }}
           />
 
-          {/* Like/Dislike Buttons Bottom */}
-          <div className="flex items-center space-x-4 mt-8 pt-8 border-t">
+          <div className="flex items-center space-x-4 mt-8 pt-8">
             <p className="text-gray-600 mr-4">Bài viết này có hữu ích không?</p>
-            <button
-              onClick={handleLike}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-                userVote === "like"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-gray-100 text-gray-700 hover:bg-green-50"
-              }`}
-            >
-              <ThumbsUp size={20} />
-              <span className="font-semibold">{likes}</span>
-            </button>
-            <button
-              onClick={handleDislike}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-                userVote === "dislike"
-                  ? "bg-red-100 text-red-700"
-                  : "bg-gray-100 text-gray-700 hover:bg-red-50"
-              }`}
-            >
-              <ThumbsDown size={20} />
-            </button>
+            <LikeAndDislike
+              likes={likes}
+              userVote={userVote}
+              handleLike={handleLike}
+              handleDislike={handleDislike}
+            />
           </div>
         </div>
       </article>
 
-      {/* Back to Blog List */}
       <div className="mt-8 text-center">
         <Link
           href="/blog"

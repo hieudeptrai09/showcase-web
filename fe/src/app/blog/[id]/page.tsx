@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import BlogDetailClient from "@/components/BlogDetailClient";
+import BlogDetailClient from "@/app/blog/_components/BlogDetailClient";
 import { fetchBlog } from "@/lib/api";
 
 export default async function BlogDetailPage({

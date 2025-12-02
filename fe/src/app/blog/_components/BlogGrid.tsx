@@ -37,7 +37,8 @@ export default function BlogGrid() {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
       {blogs.map((blog) => (
-        <article
+        <Link
+          href={`/blog/${blog.id}`}
           key={blog.id}
           className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow"
         >
@@ -65,24 +66,21 @@ export default function BlogGrid() {
             </div>
 
             <div className="flex items-center space-x-4 mb-4 text-sm">
-              <div className="flex items-center text-green-600">
+              <div className="flex items-center text-gray-700">
                 <ThumbsUp size={16} className="mr-1" />
                 <span>{blog.like}</span>
               </div>
-              <div className="flex items-center text-red-600">
+              <div className="flex items-center text-gray-700">
                 <ThumbsDown size={16} className="mr-1" />
               </div>
             </div>
 
-            <Link
-              href={`/blog/${blog.id}`}
-              className="text-primary hover:underline flex items-center font-semibold"
-            >
+            <p className="text-primary hover:underline flex items-center font-semibold">
               Đọc thêm
               <ArrowRight size={16} className="ml-2" />
-            </Link>
+            </p>
           </div>
-        </article>
+        </Link>
       ))}
     </div>
   );
