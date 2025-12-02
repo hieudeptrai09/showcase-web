@@ -9,6 +9,7 @@ export interface ApiProduct {
   noInStock: number;
   producer: string;
   description: string;
+  isHighlighted: boolean;
   images: string[];
   qna: {
     id: number;
@@ -54,6 +55,19 @@ export async function fetchProducts(): Promise<ApiProduct[]> {
     return result.success ? result.data : [];
   } catch (error) {
     console.error("Error fetching products:", error);
+    return [];
+  }
+}
+
+export async function fetchHighlightedProducts(): Promise<ApiProduct[]> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/products/highlighted`, {
+      cache: "no-store",
+    });
+    const result: ApiResponse<ApiProduct[]> = await response.json();
+    return result.success ? result.data : [];
+  } catch (error) {
+    console.error("Error fetching highlighted products:", error);
     return [];
   }
 }

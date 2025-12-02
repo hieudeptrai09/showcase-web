@@ -1,11 +1,75 @@
+"use client";
+
 import Link from "next/link";
-import { products } from "@/lib/data";
-import { ArrowRight, MapPin } from "lucide-react";
-import ProductCard from "@/components/ProductCard";
+import { ArrowRight } from "lucide-react";
 import { shopInfo } from "@/lib/shopInfo";
+import { useState, useEffect } from "react";
+import {
+  fetchCategories,
+  fetchHighlightedProducts,
+  ApiCategory,
+  ApiProduct,
+} from "@/lib/api";
+import ProductCard from "@/components/ProductCard";
 
 export default function Home() {
-  const featuredProducts = products.filter((p) => p.featured).slice(0, 6);
+  const [categories, setCategories] = useState<ApiCategory[]>([]);
+  const [highlightedProducts, setHighlightedProducts] = useState<ApiProduct[]>(
+    []
+  );
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const [categoriesData, productsData] = await Promise.all([
+          fetchCategories(),
+          fetchHighlightedProducts(),
+        ]);
+
+        setCategories(categoriesData);
+        setHighlightedProducts(productsData);
+      } catch (error) {
+        console.error("Error loading data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  // Group products by category
+  const productsByCategory = categories
+    .map((category) => ({
+      category,
+      products: highlightedProducts
+        .filter((p) => p.categoryId === category.id)
+        .slice(0, 4),
+    }))
+    .filter((group) => group.products.length > 0);
+
+  if (loading) {
+    return (
+      <section className="container-custom py-16">
+        <div className="text-center py-8">
+          <p className="text-gray-500">Đang tải sản phẩm...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (productsByCategory.length === 0) {
+    return (
+      <section className="container-custom py-16">
+        <div className="text-center py-8">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+            Sản phẩm nổi bật
+          </h2>
+          <p className="text-gray-500">Chưa có sản phẩm nổi bật nào.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <div>
@@ -25,7 +89,7 @@ export default function Home() {
                 <ArrowRight className="inline ml-2" size={20} />
               </Link>
               <Link
-                href="/contact"
+                href="/maps"
                 className="bg-transparent border-2 border-white text-white px-6 py-2 rounded-lg hover:bg-white hover:text-primary transition-colors"
               >
                 Liên hệ ngay
@@ -35,32 +99,70 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="container-custom py-16">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-2">
-              Sản phẩm nổi bật
-            </h2>
-            <p className="text-gray-600">
-              Những sản phẩm được yêu thích nhất tại {shopInfo.name}
-            </p>
-          </div>
-          <Link
-            href="/product"
-            className="text-primary hover:underline flex items-center"
-          >
-            Xem tất cả
-            <ArrowRight className="ml-2" size={20} />
-          </Link>
-        </div>
+      {/* Featured Products by Category */}
+      {productsByCategory.map((group, index) => (
+        <section
+          key={group.category.id}
+          className={`py-16 ${index % 2 === 1 ? "bg-gray-50" : ""}`}
+        >
+          <div className="container-custom">
+            <div className="flex justify-between items-center mb-8">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                  {group.category.name}
+                </h2>
+                <p className="text-gray-600">
+                  Sản phẩm nổi bật trong danh mục{" "}
+                  {group.category.name.toLowerCase()}
+                </p>
+              </div>
+              <Link
+                href={`/product?category=${group.category.id}`}
+                className="text-primary hover:underline flex items-center"
+              >
+                Xem tất cả
+                <ArrowRight className="ml-2" size={20} />
+              </Link>
+            </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {group.products.map((product) => {
+                const avgRating =
+                  product.ratings.length > 0
+                    ? product.ratings.reduce((sum, r) => sum + r.rating, 0) /
+                      product.ratings.length
+                    : 0;
+
+                return (
+                  <ProductCard
+                    key={product.id}
+                    product={{
+                      ...product,
+                      manufacturer: product.producer,
+                      inStock: product.noInStock > 0,
+                      stock: product.noInStock,
+                      category: product.categoryName,
+                      image:
+                        product.images[0] || "https://via.placeholder.com/400",
+                      featured: product.isHighlighted,
+                      rating: parseFloat(avgRating.toFixed(1)),
+                      reviews: product.ratings.map((r) => ({
+                        ...r,
+                        date: new Date().toISOString(),
+                      })),
+                      qna: product.qna.map((q) => ({
+                        ...q,
+                        author: "Shop",
+                        date: new Date().toISOString(),
+                      })),
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      ))}
 
       {/* Why Choose Us */}
       <section className="bg-gray-50 py-16">
@@ -139,7 +241,18 @@ export default function Home() {
       {/* Location Map */}
       <section className="container-custom py-16">
         <div className="flex items-center mb-8">
-          <MapPin className="text-primary mr-2" size={32} />
+          <svg
+            className="text-primary mr-2"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
           <div>
             <h2 className="text-3xl font-bold text-gray-800">
               Vị trí cửa hàng
