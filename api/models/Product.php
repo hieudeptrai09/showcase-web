@@ -19,7 +19,8 @@ class Product
                     p.price,
                     p.noInStock,
                     p.producer,
-                    p.description
+                    p.description,
+                    p.isHighlighted
                   FROM " . $this->table_name . " p
                   LEFT JOIN Categories c ON p.categoryId = c.id
                   ORDER BY p.id ASC";
@@ -39,6 +40,50 @@ class Product
                 "noInStock" => (int)$row['noInStock'],
                 "producer" => $row['producer'],
                 "description" => $row['description'],
+                "isHighlighted" => (bool)$row['isHighlighted'],
+                "images" => $this->getImages($row['id']),
+                "qna" => $this->getQnA($row['id']),
+                "ratings" => $this->getRatings($row['id'])
+            );
+            array_push($products, $product);
+        }
+
+        return $products;
+    }
+
+    public function getHighlighted()
+    {
+        $query = "SELECT 
+                    p.id,
+                    p.name,
+                    p.categoryId,
+                    c.name as categoryName,
+                    p.price,
+                    p.noInStock,
+                    p.producer,
+                    p.description,
+                    p.isHighlighted
+                  FROM " . $this->table_name . " p
+                  LEFT JOIN Categories c ON p.categoryId = c.id
+                  WHERE p.isHighlighted = TRUE
+                  ORDER BY p.id ASC";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $products = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $product = array(
+                "id" => (int)$row['id'],
+                "name" => $row['name'],
+                "categoryId" => (int)$row['categoryId'],
+                "categoryName" => $row['categoryName'],
+                "price" => (float)$row['price'],
+                "noInStock" => (int)$row['noInStock'],
+                "producer" => $row['producer'],
+                "description" => $row['description'],
+                "isHighlighted" => (bool)$row['isHighlighted'],
                 "images" => $this->getImages($row['id']),
                 "qna" => $this->getQnA($row['id']),
                 "ratings" => $this->getRatings($row['id'])
@@ -59,7 +104,8 @@ class Product
                     p.price,
                     p.noInStock,
                     p.producer,
-                    p.description
+                    p.description,
+                    p.isHighlighted
                   FROM " . $this->table_name . " p
                   LEFT JOIN Categories c ON p.categoryId = c.id
                   WHERE p.id = ?
@@ -79,6 +125,7 @@ class Product
                 "noInStock" => (int)$row['noInStock'],
                 "producer" => $row['producer'],
                 "description" => $row['description'],
+                "isHighlighted" => (bool)$row['isHighlighted'],
                 "images" => $this->getImages($row['id']),
                 "qna" => $this->getQnA($row['id']),
                 "ratings" => $this->getRatings($row['id'])

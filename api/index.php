@@ -65,6 +65,7 @@ if ($request_method === 'GET') {
             "endpoints" => array(
                 "categories" => $base_path . "/categories",
                 "products" => $base_path . "/products",
+                "products_highlighted" => $base_path . "/products/highlighted",
                 "blogs" => $base_path . "/blogs"
             )
         ));
@@ -77,7 +78,11 @@ if ($request_method === 'GET') {
         }
     } elseif ($uri_parts[0] === 'products') {
         $controller = new ProductController($db);
-        if (isset($uri_parts[1]) && is_numeric($uri_parts[1])) {
+
+        // Check for /products/highlighted endpoint
+        if (isset($uri_parts[1]) && $uri_parts[1] === 'highlighted') {
+            $controller->getHighlighted();
+        } elseif (isset($uri_parts[1]) && is_numeric($uri_parts[1])) {
             $controller->getById($uri_parts[1]);
         } else {
             $controller->getAll();
@@ -93,8 +98,7 @@ if ($request_method === 'GET') {
         http_response_code(404);
         echo json_encode(array(
             "success" => false,
-            "message" => "Endpoint not found.",
-            "requested_path" => $uri_parts
+            "message" => "Endpoint not found."
         ));
     }
 } else {

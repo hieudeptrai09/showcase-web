@@ -21,6 +21,17 @@ class ProductController
         ));
     }
 
+    public function getHighlighted()
+    {
+        $products = $this->product->getHighlighted();
+
+        http_response_code(200);
+        echo json_encode(array(
+            "success" => true,
+            "data" => $products
+        ));
+    }
+
     public function getById($id)
     {
         $product = $this->product->getById($id);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2025 at 04:03 PM
+-- Generation Time: Dec 02, 2025 at 02:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -138,7 +138,28 @@ INSERT INTO `productimage` (`id`, `productId`, `url`) VALUES
 (11, 8, 'https://example.com/images/running-shoes-1.jpg'),
 (12, 8, 'https://example.com/images/running-shoes-2.jpg'),
 (13, 9, 'https://example.com/images/mystery-book-cover.jpg'),
-(14, 10, 'https://example.com/images/cookbook-cover.jpg');
+(14, 10, 'https://example.com/images/cookbook-cover.jpg'),
+(15, 11, 'https://example.com/images/smart-tv-1.jpg'),
+(16, 11, 'https://example.com/images/smart-tv-2.jpg'),
+(17, 11, 'https://example.com/images/smart-tv-3.jpg'),
+(18, 12, 'https://example.com/images/bluetooth-speaker-1.jpg'),
+(19, 12, 'https://example.com/images/bluetooth-speaker-2.jpg'),
+(20, 13, 'https://example.com/images/leather-jacket-1.jpg'),
+(21, 13, 'https://example.com/images/leather-jacket-2.jpg'),
+(22, 14, 'https://example.com/images/sneakers-1.jpg'),
+(23, 14, 'https://example.com/images/sneakers-2.jpg'),
+(24, 14, 'https://example.com/images/sneakers-3.jpg'),
+(25, 15, 'https://example.com/images/robot-vacuum-1.jpg'),
+(26, 15, 'https://example.com/images/robot-vacuum-2.jpg'),
+(27, 16, 'https://example.com/images/air-purifier-1.jpg'),
+(28, 16, 'https://example.com/images/air-purifier-2.jpg'),
+(29, 17, 'https://example.com/images/mountain-bike-1.jpg'),
+(30, 17, 'https://example.com/images/mountain-bike-2.jpg'),
+(31, 18, 'https://example.com/images/camping-tent-1.jpg'),
+(32, 18, 'https://example.com/images/camping-tent-2.jpg'),
+(33, 19, 'https://example.com/images/coffee-maker-1.jpg'),
+(34, 19, 'https://example.com/images/coffee-maker-2.jpg'),
+(35, 20, 'https://example.com/images/electric-kettle-1.jpg');
 
 -- --------------------------------------------------------
 
@@ -167,7 +188,18 @@ INSERT INTO `productqna` (`id`, `productId`, `question`, `answer`) VALUES
 (7, 7, 'What are the dimensions?', 'The mat measures 72 inches long and 24 inches wide.'),
 (8, 8, 'Are these suitable for trail running?', 'These are designed for road running. We recommend our Trail Runner model for off-road use.'),
 (9, 9, 'Is this part of a series?', 'Yes, this is the first book in a trilogy.'),
-(10, 10, 'Are there vegetarian recipes included?', 'Yes, approximately 50 recipes are vegetarian or can be easily adapted.');
+(10, 10, 'Are there vegetarian recipes included?', 'Yes, approximately 50 recipes are vegetarian or can be easily adapted.'),
+(11, 11, 'Does this TV support Netflix and YouTube?', 'Yes, it comes with all major streaming apps pre-installed including Netflix, YouTube, Amazon Prime, and more.'),
+(12, 11, 'What is the refresh rate?', 'This TV has a 60Hz refresh rate, perfect for movies and casual gaming.'),
+(13, 12, 'Is this speaker really waterproof?', 'Yes, it has an IPX7 waterproof rating, meaning it can be submerged in water up to 1 meter for 30 minutes.'),
+(14, 13, 'How should I care for this leather jacket?', 'We recommend using a leather conditioner every few months and avoiding prolonged exposure to rain.'),
+(15, 14, 'Do these sneakers run true to size?', 'Yes, they run true to size. We recommend ordering your normal shoe size.'),
+(16, 15, 'Can the robot vacuum clean multiple rooms?', 'Yes, it uses smart mapping to navigate and clean multiple rooms efficiently.'),
+(17, 16, 'How often do I need to replace the filter?', 'We recommend replacing the HEPA filter every 6-12 months depending on usage.'),
+(18, 17, 'Is this bike suitable for beginners?', 'Yes, it is perfect for both beginners and intermediate riders.'),
+(19, 18, 'How long does it take to set up the tent?', 'The tent can be set up in approximately 10-15 minutes with two people.'),
+(20, 19, 'Can I program the coffee maker to brew automatically?', 'Yes, you can program it up to 24 hours in advance.'),
+(21, 20, 'Does the kettle have auto shut-off?', 'Yes, it automatically shuts off when the water reaches boiling point for safety.');
 
 -- --------------------------------------------------------
 
@@ -203,7 +235,28 @@ INSERT INTO `productrating` (`id`, `productId`, `rating`, `author`, `comment`) V
 (13, 8, 5, 'Ashley Thompson', 'Most comfortable running shoes I have ever owned!'),
 (14, 8, 5, 'Ryan Garcia', 'Great support and very lightweight.'),
 (15, 9, 5, 'Michelle Robinson', 'Could not put it down! Excellent plot twists.'),
-(16, 10, 4, 'Daniel Clark', 'Recipes are easy to follow and delicious.');
+(16, 10, 4, 'Daniel Clark', 'Recipes are easy to follow and delicious.'),
+(17, 11, 5, 'William Scott', 'Picture quality is absolutely stunning! Worth every penny.'),
+(18, 11, 5, 'Jennifer Adams', 'Easy to set up and the smart features work great.'),
+(19, 11, 4, 'Mark Phillips', 'Great TV, only wish the remote was backlit.'),
+(20, 12, 5, 'Sandra Mitchell', 'Amazing sound for such a small speaker. Love it for the pool!'),
+(21, 12, 5, 'Greg Thompson', 'Battery lasts forever and it is truly waterproof.'),
+(22, 13, 5, 'Angela White', 'Beautiful jacket! The leather quality is exceptional.'),
+(23, 13, 4, 'Robert King', 'Stylish and comfortable, runs slightly large.'),
+(24, 14, 5, 'Melissa Carter', 'These sneakers are so comfortable and look amazing!'),
+(25, 14, 5, 'Jason Turner', 'Best sneakers I have owned. Great quality and unique design.'),
+(26, 15, 5, 'Patricia Lewis', 'This vacuum has changed my life! My floors are always clean now.'),
+(27, 15, 4, 'Charles Wright', 'Works great but can be a bit noisy on hardwood floors.'),
+(28, 16, 5, 'Barbara Hall', 'Noticeable difference in air quality within days. Highly recommend!'),
+(29, 16, 5, 'Steven Allen', 'Perfect for my allergies. Very quiet operation.'),
+(30, 17, 5, 'Nancy Young', 'Excellent bike for the price. Very smooth ride on trails.'),
+(31, 17, 4, 'Kevin Hernandez', 'Good quality bike, assembly was a bit tricky.'),
+(32, 18, 5, 'Betty Lopez', 'Spacious and easy to set up. Stayed dry in heavy rain!'),
+(33, 18, 5, 'Donald Hill', 'Perfect for family camping trips. Very sturdy.'),
+(34, 19, 5, 'Helen Green', 'Love waking up to fresh coffee every morning!'),
+(35, 19, 5, 'Paul Baker', 'Makes excellent coffee and the thermal carafe keeps it hot for hours.'),
+(36, 20, 5, 'Carol Nelson', 'Boils water super fast and looks great on my counter.'),
+(37, 20, 4, 'George Carter', 'Good kettle, wish it had temperature control options.');
 
 -- --------------------------------------------------------
 
@@ -218,24 +271,35 @@ CREATE TABLE `products` (
   `price` decimal(10,2) NOT NULL,
   `noInStock` int(11) NOT NULL DEFAULT 0,
   `producer` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL
+  `description` text DEFAULT NULL,
+  `isHighlighted` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `categoryId`, `price`, `noInStock`, `producer`, `description`) VALUES
-(1, 'Wireless Headphones', 1, 79.99, 50, 'SoundTech Pro', 'High-quality wireless headphones with noise cancellation and 30-hour battery life.'),
-(2, 'Smartphone Stand', 1, 15.99, 120, 'TechGear', 'Adjustable aluminum stand compatible with all smartphone models.'),
-(3, 'Cotton T-Shirt', 2, 19.99, 200, 'ComfortWear', 'Comfortable 100% cotton t-shirt available in multiple colors.'),
-(4, 'Denim Jeans', 2, 49.99, 85, 'DenimCo', 'Classic fit denim jeans with stretch fabric for maximum comfort.'),
-(5, 'Garden Tool Set', 3, 34.99, 45, 'GreenThumb Tools', 'Complete 10-piece garden tool set with carrying case.'),
-(6, 'Indoor Plant Pot', 3, 12.99, 150, 'HomeGarden Plus', 'Ceramic plant pot with drainage hole and saucer, perfect for small to medium plants.'),
-(7, 'Yoga Mat', 4, 29.99, 75, 'FitnessPro', 'Non-slip yoga mat with extra cushioning, includes carrying strap.'),
-(8, 'Running Shoes', 4, 89.99, 60, 'SportMax', 'Lightweight running shoes with breathable mesh and cushioned sole.'),
-(9, 'Mystery Novel', 5, 14.99, 100, 'Penguin Books', 'Bestselling mystery thriller that will keep you on the edge of your seat.'),
-(10, 'Cookbook', 5, 24.99, 55, 'Kitchen Publishing', 'Collection of 200 easy and delicious recipes for home cooking.');
+INSERT INTO `products` (`id`, `name`, `categoryId`, `price`, `noInStock`, `producer`, `description`, `isHighlighted`) VALUES
+(1, 'Wireless Headphones', 1, 79.99, 50, 'SoundTech Pro', 'High-quality wireless headphones with noise cancellation and 30-hour battery life.', 0),
+(2, 'Smartphone Stand', 1, 15.99, 120, 'TechGear', 'Adjustable aluminum stand compatible with all smartphone models.', 0),
+(3, 'Cotton T-Shirt', 2, 19.99, 200, 'ComfortWear', 'Comfortable 100% cotton t-shirt available in multiple colors.', 0),
+(4, 'Denim Jeans', 2, 49.99, 85, 'DenimCo', 'Classic fit denim jeans with stretch fabric for maximum comfort.', 0),
+(5, 'Garden Tool Set', 3, 34.99, 45, 'GreenThumb Tools', 'Complete 10-piece garden tool set with carrying case.', 0),
+(6, 'Indoor Plant Pot', 3, 12.99, 150, 'HomeGarden Plus', 'Ceramic plant pot with drainage hole and saucer, perfect for small to medium plants.', 0),
+(7, 'Yoga Mat', 4, 29.99, 75, 'FitnessPro', 'Non-slip yoga mat with extra cushioning, includes carrying strap.', 0),
+(8, 'Running Shoes', 4, 89.99, 60, 'SportMax', 'Lightweight running shoes with breathable mesh and cushioned sole.', 0),
+(9, 'Mystery Novel', 5, 14.99, 100, 'Penguin Books', 'Bestselling mystery thriller that will keep you on the edge of your seat.', 0),
+(10, 'Cookbook', 5, 24.99, 55, 'Kitchen Publishing', 'Collection of 200 easy and delicious recipes for home cooking.', 0),
+(11, '4K Smart TV 55\"', 1, 599.99, 25, 'VisionTech', 'Ultra HD 4K Smart TV with HDR, built-in streaming apps, and voice control. Perfect for your home entertainment.', 1),
+(12, 'Bluetooth Speaker', 1, 49.99, 80, 'SoundWave', 'Portable waterproof Bluetooth speaker with 360-degree sound and 12-hour battery life.', 1),
+(13, 'Leather Jacket', 2, 149.99, 40, 'StyleCraft', 'Genuine leather jacket with classic design, perfect for any season. Available in black and brown.', 1),
+(14, 'Designer Sneakers', 2, 129.99, 55, 'UrbanStep', 'Limited edition designer sneakers with premium materials and unique colorways.', 1),
+(15, 'Robot Vacuum Cleaner', 3, 299.99, 30, 'CleanBot Pro', 'Smart robot vacuum with mapping technology, app control, and automatic charging.', 1),
+(16, 'Air Purifier', 3, 179.99, 45, 'PureAir', 'HEPA air purifier removes 99.97% of allergens, dust, and pollutants. Quiet operation for bedroom use.', 1),
+(17, 'Mountain Bike', 4, 499.99, 20, 'TrailBlazer', 'Professional mountain bike with 21-speed gears, front suspension, and lightweight aluminum frame.', 1),
+(18, 'Camping Tent 4-Person', 4, 159.99, 35, 'OutdoorPro', 'Waterproof 4-person camping tent with easy setup, ventilation windows, and carrying bag.', 1),
+(19, 'Premium Coffee Maker', 1, 89.99, 65, 'BrewMaster', 'Programmable coffee maker with thermal carafe, brew strength control, and auto shut-off.', 1),
+(20, 'Electric Kettle', 3, 39.99, 90, 'QuickBoil', 'Stainless steel electric kettle with rapid boil technology, auto shut-off, and 1.7L capacity.', 1);
 
 --
 -- Indexes for dumped tables
@@ -314,25 +378,25 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `productimage`
 --
 ALTER TABLE `productimage`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `productqna`
 --
 ALTER TABLE `productqna`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `productrating`
 --
 ALTER TABLE `productrating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
