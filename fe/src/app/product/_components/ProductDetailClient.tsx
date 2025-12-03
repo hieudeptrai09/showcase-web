@@ -35,12 +35,72 @@ export default function ProductDetailClient({
     setCurrentImageIndex(parseInt(e.target.value));
   };
 
+  const goToNextImage = () => {
+    setCurrentImageIndex((prev) =>
+      prev < product.images.length - 1 ? prev + 1 : prev
+    );
+  };
+
+  const goToPreviousImage = () => {
+    setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : prev));
+  };
+
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    // Detect horizontal scrolling (trackpad swipe)
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+      e.preventDefault();
+
+      if (e.deltaX > 0) {
+        // Swiping left (next image)
+        goToNextImage();
+      } else if (e.deltaX < 0) {
+        // Swiping right (previous image)
+        goToPreviousImage();
+      }
+    }
+  };
+
+  // Touch support for mobile devices
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      goToNextImage();
+    } else if (isRightSwipe) {
+      goToPreviousImage();
+    }
+  };
+
   return (
     <div className="container-custom py-12">
       <div className="grid lg:grid-cols-2 gap-12 mb-12">
         {/* Image Carousel */}
         <div>
-          <div className="relative bg-gray-100 rounded-lg overflow-hidden mb-4">
+          <div
+            className="relative bg-gray-100 rounded-lg overflow-hidden mb-4 cursor-grab active:cursor-grabbing"
+            onWheel={handleWheel}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             {product.isHighlighted && (
               <div className="absolute top-4 right-4 z-10 bg-yellow-400 text-white px-3 py-1 rounded-full font-semibold text-sm flex items-center gap-1 shadow-lg">
                 <Star size={16} className="fill-white" />
@@ -53,33 +113,16 @@ export default function ProductDetailClient({
                 "https://via.placeholder.com/600"
               }
               alt={product.name}
-              className="w-full h-96 object-cover"
+              className="w-full h-96 object-cover select-none"
+              draggable="false"
             />
-          </div>
-
-          {/* Trackbar for Image Navigation */}
-          {product.images.length > 1 && (
-            <div className="mb-4">
-              <input
-                type="range"
-                min="0"
-                max={product.images.length - 1}
-                value={currentImageIndex}
-                onChange={handleTrackbarChange}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
-                style={{
-                  background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
-                    (currentImageIndex / (product.images.length - 1)) * 100
-                  }%, #e5e7eb ${
-                    (currentImageIndex / (product.images.length - 1)) * 100
-                  }%, #e5e7eb 100%)`,
-                }}
-              />
-              <div className="text-center text-sm text-gray-600 mt-2">
-                {currentImageIndex + 1} / {product.images.length}
+            {/* Image Counter */}
+            {product.images.length > 1 && (
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-md text-sm font-medium">
+                {currentImageIndex + 1}/{product.images.length}
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Thumbnail Images */}
           {product.images.length > 1 && (
