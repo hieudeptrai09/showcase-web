@@ -46,25 +46,10 @@ export default function CategoryProductSection({
             return (
               <ProductCard
                 key={product.id}
-                product={{
-                  ...product,
-                  manufacturer: product.producer,
-                  inStock: product.noInStock > 0,
-                  stock: product.noInStock,
-                  category: product.categoryName,
-                  image: product.images[0] || "https://via.placeholder.com/400",
-                  featured: product.isHighlighted,
-                  rating: parseFloat(avgRating.toFixed(1)),
-                  reviews: product.ratings.map((r) => ({
-                    ...r,
-                    date: new Date().toISOString(),
-                  })),
-                  qna: product.qna.map((q) => ({
-                    ...q,
-                    author: "Shop",
-                    date: new Date().toISOString(),
-                  })),
-                }}
+                {...product}
+                image={product.images[0]}
+                rating={parseFloat(avgRating.toFixed(1))}
+                reviewCount={product.ratings.length}
               />
             );
           })}
