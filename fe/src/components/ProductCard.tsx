@@ -37,7 +37,7 @@ export default function ProductCard({
         <div className="relative h-48 bg-gray-100">
           <img src={image} alt={name} className="w-full h-full object-cover" />
           {isHighlighted && (
-            <div className="absolute top-2 right-2">
+            <div className="absolute top-2 right-2 z-2">
               <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
                 <Star size={14} className="fill-white" />
                 Nổi bật
