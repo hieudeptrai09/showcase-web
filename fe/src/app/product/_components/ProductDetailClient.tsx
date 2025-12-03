@@ -2,14 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  Star,
-  Package,
-  ChevronLeft,
-  ChevronRight,
-  Phone,
-  Facebook,
-} from "lucide-react";
+import { Star, Package, Phone, Facebook } from "lucide-react";
 import { ApiProduct } from "@/lib/api";
 import { shopInfo } from "@/lib/shopInfo";
 
@@ -38,16 +31,8 @@ export default function ProductDetailClient({
     ).toFixed(1);
   };
 
-  const nextImage = () => {
-    setCurrentImageIndex((prev) =>
-      prev === product.images.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prev) =>
-      prev === 0 ? product.images.length - 1 : prev - 1
-    );
+  const handleTrackbarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentImageIndex(parseInt(e.target.value));
   };
 
   return (
@@ -56,6 +41,12 @@ export default function ProductDetailClient({
         {/* Image Carousel */}
         <div>
           <div className="relative bg-gray-100 rounded-lg overflow-hidden mb-4">
+            {product.isHighlighted && (
+              <div className="absolute top-4 right-4 z-10 bg-yellow-400 text-white px-3 py-1 rounded-full font-semibold text-sm flex items-center gap-1 shadow-lg">
+                <Star size={16} className="fill-white" />
+                Nổi bật
+              </div>
+            )}
             <img
               src={
                 product.images[currentImageIndex] ||
@@ -64,23 +55,31 @@ export default function ProductDetailClient({
               alt={product.name}
               className="w-full h-96 object-cover"
             />
-            {product.images.length > 1 && (
-              <>
-                <button
-                  onClick={prevImage}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
-                >
-                  <ChevronLeft size={24} />
-                </button>
-                <button
-                  onClick={nextImage}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
-                >
-                  <ChevronRight size={24} />
-                </button>
-              </>
-            )}
           </div>
+
+          {/* Trackbar for Image Navigation */}
+          {product.images.length > 1 && (
+            <div className="mb-4">
+              <input
+                type="range"
+                min="0"
+                max={product.images.length - 1}
+                value={currentImageIndex}
+                onChange={handleTrackbarChange}
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                style={{
+                  background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
+                    (currentImageIndex / (product.images.length - 1)) * 100
+                  }%, #e5e7eb ${
+                    (currentImageIndex / (product.images.length - 1)) * 100
+                  }%, #e5e7eb 100%)`,
+                }}
+              />
+              <div className="text-center text-sm text-gray-600 mt-2">
+                {currentImageIndex + 1} / {product.images.length}
+              </div>
+            </div>
+          )}
 
           {/* Thumbnail Images */}
           {product.images.length > 1 && (
@@ -251,7 +250,13 @@ export default function ProductDetailClient({
                 href={`/product/${relatedProduct.id}`}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow"
               >
-                <div className="h-48 bg-gray-100">
+                <div className="h-48 bg-gray-100 relative">
+                  {relatedProduct.isHighlighted && (
+                    <div className="absolute top-2 right-2 z-10 bg-yellow-400 text-white px-2 py-1 rounded-full font-semibold text-xs flex items-center gap-1 shadow-md">
+                      <Star size={14} className="fill-white" />
+                      Nổi bật
+                    </div>
+                  )}
                   <img
                     src={
                       relatedProduct.images[0] ||
