@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import Link from "next/link";
-import { Filter, Star, Package } from "lucide-react";
+import { Filter } from "lucide-react";
 import {
   fetchProducts,
   fetchCategories,
   ApiProduct,
   ApiCategory,
 } from "@/lib/api";
+import ProductCard from "@/components/ProductCard";
 
 export default function ProductGrid() {
   const [products, setProducts] = useState<ApiProduct[]>([]);
@@ -83,15 +83,8 @@ export default function ProductGrid() {
     return filtered;
   }, [products, selectedCategory, selectedProducer, stockFilter, sortBy]);
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
-  };
-
   const calculateAvgRating = (ratings: ApiProduct["ratings"]) => {
-    if (ratings.length === 0) return 0;
+    if (ratings.length === 0) return Number(0).toFixed(1);
     return (
       ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length
     ).toFixed(1);
@@ -193,74 +186,13 @@ export default function ProductGrid() {
       {filteredProducts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (
-            <Link
+            <ProductCard
               key={product.id}
-              href={`/product/${product.id}`}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 h-full flex flex-col"
-            >
-              <div className="relative h-48 bg-gray-100">
-                <img
-                  src={product.images[0] || "https://via.placeholder.com/400"}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-                {product.noInStock === 0 && (
-                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                    <span className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold">
-                      Hết hàng
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              <div className="p-4 flex-1 flex flex-col">
-                <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
-                  {product.name}
-                </h3>
-
-                <p className="text-sm text-gray-500 mb-2">{product.producer}</p>
-
-                <div className="flex items-center mb-2">
-                  <div className="flex items-center">
-                    <Star
-                      size={16}
-                      className="text-yellow-400 fill-yellow-400"
-                    />
-                    <span className="text-sm text-gray-600 ml-1">
-                      {calculateAvgRating(product.ratings)}
-                    </span>
-                  </div>
-                  {product.ratings.length > 0 && (
-                    <span className="text-sm text-gray-400 ml-2">
-                      ({product.ratings.length} đánh giá)
-                    </span>
-                  )}
-                </div>
-
-                <div className="mt-auto">
-                  <p className="text-2xl font-bold text-primary mb-2">
-                    {formatPrice(product.price)}
-                  </p>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center text-sm">
-                      <Package size={16} className="text-gray-400 mr-1" />
-                      <span
-                        className={
-                          product.noInStock > 0
-                            ? "text-green-600"
-                            : "text-red-600"
-                        }
-                      >
-                        {product.noInStock > 0
-                          ? `Còn ${product.noInStock} sản phẩm`
-                          : "Hết hàng"}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
+              {...product}
+              image={product.images[0]}
+              rating={parseFloat(calculateAvgRating(product.ratings))}
+              reviewCount={product.ratings.length}
+            />
           ))}
         </div>
       ) : (
