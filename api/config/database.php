@@ -2,7 +2,7 @@
 class Database
 {
     private $host = "localhost";
-    private $db_name = "blogproduct";
+    private $db_name = "spbl";
     private $username = "root";
     private $password = "";
     public $conn;
