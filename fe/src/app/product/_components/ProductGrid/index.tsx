@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useProductData } from "../../_hooks/useProductData";
 import { useProductFilters } from "../../_hooks/useProductFilters";
-import { usePagination } from "../../_hooks/usePagination";
+import { usePagination } from "../../../../lib/usePagination";
 import ProductFilters from "./ProductFilters";
 import ProductCount from "./ProductCount";
 import ProductList from "./ProductList";
 import LoadingSpinner from "./LoadingSpinner";
-import Pagination from "./Pagination";
+import Pagination from "@/components/Pagination";
 
 export default function ProductGrid() {
   const searchParams = useSearchParams();
@@ -40,7 +40,6 @@ export default function ProductGrid() {
     onPageChange,
   } = usePagination({
     items: filteredProducts,
-    itemsPerPage: 20,
   });
 
   const handleFiltersChange = (newFilters: {
