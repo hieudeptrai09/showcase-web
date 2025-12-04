@@ -47,7 +47,9 @@ export default function CategoryProductSection({
               <ProductCard
                 key={product.id}
                 {...product}
-                image={product.images[0]}
+                image={
+                  product.images[0] || "https://via.placeholder.com/1200x600"
+                }
                 rating={parseFloat(avgRating.toFixed(1))}
                 reviewCount={product.ratings.length}
               />

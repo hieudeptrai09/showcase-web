@@ -27,7 +27,7 @@ export default function ProductList({ products }: ProductListProps) {
         <ProductCard
           key={product.id}
           {...product}
-          image={product.images[0]}
+          image={product.images[0] || "https://via.placeholder.com/1200x600"}
           rating={parseFloat(calculateAvgRating(product.ratings))}
           reviewCount={product.ratings.length}
         />
