@@ -7,6 +7,7 @@ interface UseProductFiltersProps {
   selectedProducer: string;
   stockFilter: string;
   sortBy: string;
+  searchQuery?: string;
 }
 
 export function useProductFilters({
@@ -15,9 +16,16 @@ export function useProductFilters({
   selectedProducer,
   stockFilter,
   sortBy,
+  searchQuery = "",
 }: UseProductFiltersProps) {
   const filteredProducts = useMemo(() => {
     let filtered = [...products];
+
+    // Filter by search query
+    if (searchQuery && searchQuery.trim() !== "") {
+      const query = searchQuery.toLowerCase().trim();
+      filtered = filtered.filter((p) => p.name.toLowerCase().includes(query));
+    }
 
     // Filter by category
     if (selectedCategory !== "all") {
@@ -58,9 +66,12 @@ export function useProductFilters({
               : 0;
           return avgB - avgA;
         case "highlighted":
+          // Sort by highlighted first (true before false)
           if (a.isHighlighted === b.isHighlighted) {
+            // If both have same highlighted status, sort by name
             return a.name.localeCompare(b.name);
           }
+          // true (highlighted) comes before false (not highlighted)
           return a.isHighlighted ? -1 : 1;
         case "name":
         default:
@@ -69,7 +80,14 @@ export function useProductFilters({
     });
 
     return filtered;
-  }, [products, selectedCategory, selectedProducer, stockFilter, sortBy]);
+  }, [
+    products,
+    selectedCategory,
+    selectedProducer,
+    stockFilter,
+    sortBy,
+    searchQuery,
+  ]);
 
   return filteredProducts;
 }

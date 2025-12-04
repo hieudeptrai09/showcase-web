@@ -16,6 +16,7 @@ interface FilterConfig {
 interface ProductFiltersProps {
   categories: ApiCategory[];
   producers: string[];
+  searchQuery?: string;
   onFiltersChange: (filters: {
     selectedCategory: string;
     selectedProducer: string;
@@ -27,6 +28,7 @@ interface ProductFiltersProps {
 export default function ProductFilters({
   categories,
   producers,
+  searchQuery = "",
   onFiltersChange,
 }: ProductFiltersProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -124,7 +126,20 @@ export default function ProductFilters({
         <h2 className="text-xl font-semibold">Bộ lọc</h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Từ khóa
+          </label>
+          <input
+            type="text"
+            value={searchQuery}
+            disabled
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 cursor-not-allowed"
+            placeholder={searchQuery ? "" : "Không có từ khóa"}
+          />
+        </div>
+
         {filters.map((filter) => (
           <div key={filter.id}>
             <label className="block text-sm font-medium text-gray-700 mb-2">

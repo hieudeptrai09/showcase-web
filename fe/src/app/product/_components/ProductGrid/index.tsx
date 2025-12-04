@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useProductFilters } from "../../_hooks/useProductFilters";
 import { useProductData } from "../../_hooks/useProductData";
 import ProductFilters from "./ProductFilters";
@@ -9,6 +10,9 @@ import ProductList from "./ProductList";
 import LoadingSpinner from "./LoadingSpinner";
 
 export default function ProductGrid() {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+
   const { products, categories, producers, loading } = useProductData();
   const [filters, setFilters] = useState({
     selectedCategory: "all",
@@ -23,6 +27,7 @@ export default function ProductGrid() {
     selectedProducer: filters.selectedProducer,
     stockFilter: filters.stockFilter,
     sortBy: filters.sortBy,
+    searchQuery,
   });
 
   const handleFiltersChange = (newFilters: {
@@ -43,6 +48,7 @@ export default function ProductGrid() {
       <ProductFilters
         categories={categories}
         producers={producers}
+        searchQuery={searchQuery}
         onFiltersChange={handleFiltersChange}
       />
 
