@@ -54,7 +54,10 @@ export default function BlogDetailClient({ blog }: BlogDetailClientProps) {
       <article className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="h-96 bg-gray-200 overflow-hidden">
           <img
-            src={blog.heroImage || "https://via.placeholder.com/1200x600"}
+            src={
+              blog.heroImage ||
+              "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+            }
             alt={blog.title}
             className="w-full h-full object-cover"
           />
