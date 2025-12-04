@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useProductFilters } from "../../_hooks/useProductFilters";
 import { useProductData } from "../../_hooks/useProductData";
+import { useProductFilters } from "../../_hooks/useProductFilters";
+import { usePagination } from "../../_hooks/usePagination";
 import ProductFilters from "./ProductFilters";
 import ProductCount from "./ProductCount";
 import ProductList from "./ProductList";
 import LoadingSpinner from "./LoadingSpinner";
+import Pagination from "./Pagination";
 
 export default function ProductGrid() {
   const searchParams = useSearchParams();
@@ -28,6 +30,17 @@ export default function ProductGrid() {
     stockFilter: filters.stockFilter,
     sortBy: filters.sortBy,
     searchQuery,
+  });
+
+  const {
+    currentPage,
+    paginatedItems,
+    totalItems,
+    itemsPerPage,
+    onPageChange,
+  } = usePagination({
+    items: filteredProducts,
+    itemsPerPage: 20,
   });
 
   const handleFiltersChange = (newFilters: {
@@ -52,9 +65,16 @@ export default function ProductGrid() {
         onFiltersChange={handleFiltersChange}
       />
 
-      <ProductCount count={filteredProducts.length} />
+      <ProductCount count={totalItems} />
 
-      <ProductList products={filteredProducts} />
+      <ProductList products={paginatedItems} />
+
+      <Pagination
+        currentPage={currentPage}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        onPageChange={onPageChange}
+      />
     </>
   );
 }
