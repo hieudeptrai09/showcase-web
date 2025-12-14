@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useProductData } from "../../_hooks/useProductData";
 import { useProductFilters } from "../../_hooks/useProductFilters";
@@ -14,14 +14,23 @@ import Pagination from "@/components/Pagination";
 export default function ProductGrid() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
+  const categoryFromUrl = searchParams.get("category") || "all";
 
   const { products, categories, producers, loading } = useProductData();
   const [filters, setFilters] = useState({
-    selectedCategory: "all",
+    selectedCategory: categoryFromUrl,
     selectedProducer: "all",
     stockFilter: "all",
     sortBy: "name",
   });
+
+  // Update filters when URL category changes
+  useEffect(() => {
+    setFilters((prev) => ({
+      ...prev,
+      selectedCategory: categoryFromUrl,
+    }));
+  }, [categoryFromUrl]);
 
   const filteredProducts = useProductFilters({
     products,

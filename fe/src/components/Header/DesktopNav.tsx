@@ -7,7 +7,7 @@ interface DesktopNavProps {
 export default function DesktopNav({ currentPath }: DesktopNavProps) {
   return (
     <Navigation
-      className="hidden lg:flex items-center space-x-6"
+      className="relative hidden lg:flex items-center space-x-6"
       currentPath={currentPath}
     />
   );

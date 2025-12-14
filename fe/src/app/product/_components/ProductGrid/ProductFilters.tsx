@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Filter } from "lucide-react";
 import { ApiCategory } from "@/lib/api";
+import { useSearchParams } from "next/navigation";
 
 interface FilterOption {
   value: string;
@@ -31,10 +32,29 @@ export default function ProductFilters({
   searchQuery = "",
   onFiltersChange,
 }: ProductFiltersProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const searchParams = useSearchParams();
+  const categoryFromUrl = searchParams.get("category") || "all";
+
+  const [selectedCategory, setSelectedCategory] =
+    useState<string>(categoryFromUrl);
   const [selectedProducer, setSelectedProducer] = useState<string>("all");
   const [stockFilter, setStockFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("name");
+
+  // Update selected category when URL changes
+  useEffect(() => {
+    setSelectedCategory(categoryFromUrl);
+  }, [categoryFromUrl]);
+
+  // Notify parent when filters change (including initial load)
+  useEffect(() => {
+    onFiltersChange({
+      selectedCategory,
+      selectedProducer,
+      stockFilter,
+      sortBy,
+    });
+  }, [selectedCategory, selectedProducer, stockFilter, sortBy]);
 
   const handleFilterChange = (filterId: string, value: string) => {
     // Update local state
@@ -52,14 +72,6 @@ export default function ProductFilters({
         setSortBy(value);
         break;
     }
-
-    // Notify parent with updated filters
-    onFiltersChange({
-      selectedCategory: filterId === "category" ? value : selectedCategory,
-      selectedProducer: filterId === "producer" ? value : selectedProducer,
-      stockFilter: filterId === "stock" ? value : stockFilter,
-      sortBy: filterId === "sort" ? value : sortBy,
-    });
   };
 
   const filters: FilterConfig[] = [
