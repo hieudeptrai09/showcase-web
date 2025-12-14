@@ -1,15 +1,18 @@
 "use client";
 
-import { Star, Package, Phone, Facebook } from "lucide-react";
+import { useState } from "react";
+import { Star, Package, Phone } from "lucide-react";
 import { ApiProduct } from "@/lib/api";
-import { shopInfo } from "@/lib/shopInfo";
 import { formatPrice, calculateAvgRating } from "../../_utils/fns";
+import ContactModal from "./ContactModal";
 
 interface ProductInfoProps {
   product: ApiProduct;
 }
 
 export default function ProductInfo({ product }: ProductInfoProps) {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
   return (
     <div>
       <h1 className="text-3xl font-bold text-gray-800 mb-4">{product.name}</h1>
@@ -49,27 +52,25 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         </span>
       </div>
 
-      <div className="space-y-3 mb-8">
-        <a
-          href={`tel:${shopInfo.phoneUrl}`}
-          className="btn-primary w-full flex items-center justify-center"
+      <div className="mb-8">
+        <button
+          onClick={() => setIsContactModalOpen(true)}
+          className="btn-primary w-full flex items-center justify-center text-lg py-3"
         >
-          <Phone size={20} className="mr-2" />
-          Liên hệ: {shopInfo.phone}
-        </a>
-        <a
-          href={shopInfo.facebook}
-          className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors w-full flex items-center justify-center"
-        >
-          <Facebook size={20} className="mr-2" />
-          Facebook: {shopInfo.facebook}
-        </a>
+          <Phone size={24} className="mr-2" />
+          Liên hệ đặt hàng
+        </button>
       </div>
 
       <div className="border-t pt-6">
         <h3 className="text-lg font-semibold mb-2">Danh mục</h3>
         <p className="text-gray-600">{product.categoryName}</p>
       </div>
+
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
     </div>
   );
 }
