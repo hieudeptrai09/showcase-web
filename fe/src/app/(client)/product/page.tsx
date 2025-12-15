@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import ProductGrid from "@/app/product/_components/ProductGrid";
+import ProductGrid from "@/app/(client)/product/_components/ProductGrid";
 
 export default function ProductPage() {
   return (

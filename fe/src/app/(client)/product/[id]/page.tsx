@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import ProductDetailClient from "@/app/product/_components/ProductDetailClient";
+import ProductDetailClient from "@/app/(client)/product/_components/ProductDetailClient";
 import { fetchProduct, fetchProducts } from "@/lib/api";
 
 export default async function ProductDetailPage({

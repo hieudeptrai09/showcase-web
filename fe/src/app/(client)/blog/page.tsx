@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import BlogGrid from "@/app/blog/_components/BlogGrid";
+import BlogGrid from "@/app/(client)/blog/_components/BlogGrid";
 
 export default function BlogPage() {
   return (

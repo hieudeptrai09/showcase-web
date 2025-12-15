@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useProductData } from "../../_hooks/useProductData";
 import { useProductFilters } from "../../_hooks/useProductFilters";
-import { usePagination } from "../../../../lib/usePagination";
+import { usePagination } from "../../../../../lib/usePagination";
 import ProductFilters from "./ProductFilters";
 import ProductCount from "./ProductCount";
 import ProductList from "./ProductList";
