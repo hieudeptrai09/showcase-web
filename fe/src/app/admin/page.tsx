@@ -34,8 +34,8 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
+    <div className="min-h-screen bg-blue-100 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg p-8 w-full max-w-md">
         <div className="text-center mb-8">
           <div className="bg-primary text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock size={32} />
