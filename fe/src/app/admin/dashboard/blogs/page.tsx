@@ -1,19 +1,32 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { fetchBlogs, ApiBlog } from "@/lib/api";
 import { createBlog, updateBlog, deleteBlog } from "@/lib/adminApi";
 import BlogGrid from "./_components/BlogGrid";
 import BlogModal from "./_components/BlogModal";
-import PageHeader from "./_components/PageHeader";
 import { BlogFormData } from "./types";
+import { useAdminPage } from "../../hooks/useAdminPage";
+import AdminPageLayout from "../../components/AdminPageLayout";
 
 export default function BlogsPage() {
-  const [blogs, setBlogs] = useState<ApiBlog[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingBlog, setEditingBlog] = useState<ApiBlog | null>(null);
-  const [token, setToken] = useState("");
+  const {
+    items: blogs,
+    loading,
+    isModalOpen,
+    editingItem: editingBlog,
+    handleCreate,
+    handleUpdate,
+    handleDelete,
+    openModal: openModalBase,
+    closeModal,
+  } = useAdminPage<ApiBlog>({
+    fetchItems: fetchBlogs,
+    createItem: createBlog,
+    updateItem: updateBlog,
+    deleteItem: deleteBlog,
+    deleteConfirmMessage: "Are you sure you want to delete this blog?",
+  });
 
   const [formData, setFormData] = useState<BlogFormData>({
     title: "",
@@ -23,52 +36,8 @@ export default function BlogsPage() {
     date: new Date().toISOString().split("T")[0],
   });
 
-  useEffect(() => {
-    const adminToken = localStorage.getItem("adminToken") || "";
-    setToken(adminToken);
-    loadBlogs();
-  }, []);
-
-  const loadBlogs = async () => {
-    setLoading(true);
-    const data = await fetchBlogs();
-    setBlogs(data);
-    setLoading(false);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      if (editingBlog) {
-        await updateBlog(token, editingBlog.id, formData);
-      } else {
-        await createBlog(token, formData);
-      }
-
-      await loadBlogs();
-      closeModal();
-    } catch (error) {
-      console.error("Error saving blog:", error);
-      alert("Failed to save blog");
-    }
-  };
-
-  const handleDelete = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this blog?")) return;
-
-    try {
-      await deleteBlog(token, id);
-      await loadBlogs();
-    } catch (error) {
-      console.error("Error deleting blog:", error);
-      alert("Failed to delete blog");
-    }
-  };
-
   const openModal = (blog?: ApiBlog) => {
     if (blog) {
-      setEditingBlog(blog);
       setFormData({
         title: blog.title,
         content: blog.content,
@@ -77,7 +46,6 @@ export default function BlogsPage() {
         date: blog.date.split(" ")[0],
       });
     } else {
-      setEditingBlog(null);
       setFormData({
         title: "",
         content: "",
@@ -86,22 +54,31 @@ export default function BlogsPage() {
         date: new Date().toISOString().split("T")[0],
       });
     }
-    setIsModalOpen(true);
+    openModalBase(blog);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setEditingBlog(null);
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+    try {
+      if (editingBlog) {
+        await handleUpdate(editingBlog.id, formData);
+      } else {
+        await handleCreate(formData);
+      }
+    } catch (error) {
+      alert("Failed to save blog");
+    }
+  };
 
   return (
-    <div>
-      <PageHeader onAddClick={() => openModal()} />
-
+    <AdminPageLayout
+      title="Blogs"
+      description="Manage blog posts"
+      onAddClick={() => openModal()}
+      addButtonText="Add Blog"
+      loading={loading}
+    >
       <BlogGrid blogs={blogs} onEdit={openModal} onDelete={handleDelete} />
 
       <BlogModal
@@ -112,6 +89,6 @@ export default function BlogsPage() {
         onSubmit={handleSubmit}
         onClose={closeModal}
       />
-    </div>
+    </AdminPageLayout>
   );
 }
