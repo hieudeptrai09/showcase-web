@@ -11,7 +11,7 @@ import { deleteProduct } from "@/lib/adminApi";
 import ProductsTable from "./_components/ProductTable";
 import ProductModal from "./_components/ProductModal";
 import AdminPageLayout from "../components/AdminPageLayout";
-import { useAdminPage } from "../../hooks/useAdminPage";
+import { useAdminPage } from "../hooks/useAdminPage";
 
 export default function ProductsPage() {
   const [categories, setCategories] = useState<ApiCategory[]>([]);

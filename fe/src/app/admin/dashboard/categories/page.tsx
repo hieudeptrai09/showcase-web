@@ -4,7 +4,7 @@ import { fetchCategories, ApiCategory } from "@/lib/api";
 import { createCategory, updateCategory, deleteCategory } from "@/lib/adminApi";
 import CategoriesTable from "./_components/CategoriesTable";
 import CategoryModal from "./_components/CategoryModal";
-import { useAdminPage } from "../../hooks/useAdminPage";
+import { useAdminPage } from "../hooks/useAdminPage";
 import AdminPageLayout from "../components/AdminPageLayout";
 
 export default function CategoriesPage() {

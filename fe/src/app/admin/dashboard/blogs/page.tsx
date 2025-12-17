@@ -6,7 +6,7 @@ import { createBlog, updateBlog, deleteBlog } from "@/lib/adminApi";
 import BlogGrid from "./_components/BlogGrid";
 import BlogModal from "./_components/BlogModal";
 import { BlogFormData } from "./types";
-import { useAdminPage } from "../../hooks/useAdminPage";
+import { useAdminPage } from "../hooks/useAdminPage";
 import AdminPageLayout from "../components/AdminPageLayout";
 
 export default function BlogsPage() {
