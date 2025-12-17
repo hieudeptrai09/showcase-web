@@ -109,6 +109,7 @@ export default function AdminDashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {dashboardButtons.map((button, index) => (
             <a
+              key={index}
               href={button.link}
               className="bg-blue-50 border border-blue-200 rounded-lg p-4 hover:bg-blue-100 transition-colors"
             >
