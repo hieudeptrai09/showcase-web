@@ -48,6 +48,10 @@ export default function ProductsPage() {
     closeModal();
   };
 
+  const handleCategoryAdded = async () => {
+    await loadCategories();
+  };
+
   return (
     <AdminPageLayout
       title="Products"
@@ -69,6 +73,7 @@ export default function ProductsPage() {
           token={token}
           onClose={closeModal}
           onSuccess={handleModalSuccess}
+          onCategoryAdded={handleCategoryAdded}
         />
       )}
     </AdminPageLayout>

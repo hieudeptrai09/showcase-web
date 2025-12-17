@@ -22,18 +22,23 @@ export default function BlogModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
-      <div className="bg-white rounded-lg p-8 max-w-4xl w-full my-8 mx-4">
-        <h2 className="text-2xl font-bold mb-6">
-          {editingBlog ? "Edit Blog" : "Add Blog"}
-        </h2>
-        <BlogForm
-          formData={formData}
-          setFormData={setFormData}
-          onSubmit={onSubmit}
-          onCancel={onClose}
-          isEditing={!!editingBlog}
-        />
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
+        <div className="p-8 pb-4 border-b border-gray-300 shrink-0">
+          <h2 className="text-2xl font-bold">
+            {editingBlog ? "Edit Blog" : "Add Blog"}
+          </h2>
+        </div>
+
+        <div className="p-8 pt-4 overflow-y-auto">
+          <BlogForm
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={onSubmit}
+            onCancel={onClose}
+            isEditing={!!editingBlog}
+          />
+        </div>
       </div>
     </div>
   );

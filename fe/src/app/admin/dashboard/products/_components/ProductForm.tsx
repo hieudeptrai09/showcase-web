@@ -1,6 +1,7 @@
 import { ApiCategory } from "@/lib/api";
 import { ProductFormData } from "./ProductModal";
 import ImageUrlsInput from "./ImageUrlsInput";
+import { Plus } from "lucide-react";
 
 interface ProductFormProps {
   formData: ProductFormData;
@@ -8,6 +9,7 @@ interface ProductFormProps {
   categories: ApiCategory[];
   onSubmit: (e: React.FormEvent) => void;
   onCancel: () => void;
+  onAddCategory: () => void;
   isEditing: boolean;
 }
 
@@ -17,6 +19,7 @@ export default function ProductForm({
   categories,
   onSubmit,
   onCancel,
+  onAddCategory,
   isEditing,
 }: ProductFormProps) {
   return (
@@ -39,23 +42,33 @@ export default function ProductForm({
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Category
           </label>
-          <select
-            value={formData.categoryId}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                categoryId: parseInt(e.target.value),
-              })
-            }
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-            required
-          >
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
+          <div className="flex gap-2">
+            <select
+              value={formData.categoryId}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  categoryId: parseInt(e.target.value),
+                })
+              }
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              required
+            >
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              onClick={onAddCategory}
+              className="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-1"
+              title="Add new category"
+            >
+              <Plus size={18} />
+            </button>
+          </div>
         </div>
 
         <div>
