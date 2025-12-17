@@ -57,6 +57,24 @@ export default function AdminDashboardPage() {
     },
   ];
 
+  const dashboardButtons = [
+    {
+      link: "/admin/dashboard/products",
+      title: "Manage Products",
+      description: "Add, edit, or delete products",
+    },
+    {
+      link: "/admin/dashboard/categories",
+      title: "Manage Products",
+      description: "Organize your product categories",
+    },
+    {
+      link: "/admin/dashboard/blogs",
+      title: "Manage Blogs",
+      description: "Create and edit blog posts",
+    },
+  ];
+
   return (
     <div>
       <div className="mb-8">
@@ -70,7 +88,7 @@ export default function AdminDashboardPage() {
           return (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+              className="bg-white rounded-lg shadow-md p-6 transition-shadow"
             >
               <div className="flex items-center justify-between mb-4">
                 <div className={`${stat.color} text-white p-3 rounded-lg`}>
@@ -89,35 +107,17 @@ export default function AdminDashboardPage() {
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-bold text-gray-800 mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <a
-            href="/admin/dashboard/products"
-            className="bg-blue-50 border border-blue-200 rounded-lg p-4 hover:bg-blue-100 transition-colors"
-          >
-            <h3 className="font-semibold text-gray-800 mb-2">
-              Manage Products
-            </h3>
-            <p className="text-sm text-gray-600">
-              Add, edit, or delete products
-            </p>
-          </a>
-          <a
-            href="/admin/dashboard/categories"
-            className="bg-green-50 border border-green-200 rounded-lg p-4 hover:bg-green-100 transition-colors"
-          >
-            <h3 className="font-semibold text-gray-800 mb-2">
-              Manage Categories
-            </h3>
-            <p className="text-sm text-gray-600">
-              Organize your product categories
-            </p>
-          </a>
-          <a
-            href="/admin/dashboard/blogs"
-            className="bg-purple-50 border border-purple-200 rounded-lg p-4 hover:bg-purple-100 transition-colors"
-          >
-            <h3 className="font-semibold text-gray-800 mb-2">Manage Blogs</h3>
-            <p className="text-sm text-gray-600">Create and edit blog posts</p>
-          </a>
+          {dashboardButtons.map((button, index) => (
+            <a
+              href={button.link}
+              className="bg-blue-50 border border-blue-200 rounded-lg p-4 hover:bg-blue-100 transition-colors"
+            >
+              <h3 className="font-semibold text-gray-800 mb-2">
+                {button.title}
+              </h3>
+              <p className="text-sm text-gray-600">{button.description}</p>
+            </a>
+          ))}
         </div>
       </div>
     </div>
