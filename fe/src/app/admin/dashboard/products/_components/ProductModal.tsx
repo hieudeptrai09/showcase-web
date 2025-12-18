@@ -3,6 +3,7 @@ import { ApiProduct, ApiCategory } from "@/lib/api";
 import { createProduct, updateProduct, createCategory } from "@/lib/adminApi";
 import ProductForm from "./ProductForm";
 import CategoryModal from "../../categories/_components/CategoryModal";
+import { X } from "lucide-react";
 
 interface ProductModalProps {
   product: ApiProduct | null;
@@ -104,12 +105,24 @@ export default function ProductModal({
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] flex flex-col">
-          <div className="p-8 pb-4 border-b border-gray-300 shrink-0">
+      <div
+        className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+        onClick={onClose}
+      >
+        <div
+          className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] flex flex-col"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="p-8 pb-4 border-b border-gray-300 shrink-0 flex justify-between items-center">
             <h2 className="text-2xl font-bold">
               {product ? "Edit Product" : "Add Product"}
             </h2>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X size={24} />
+            </button>
           </div>
 
           <div className="p-8 pt-4 overflow-y-auto">
