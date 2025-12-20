@@ -4,7 +4,18 @@ const ADMIN_API_BASE_URL = process.env.NEXT_PUBLIC_ADMIN_API_URL;
 export async function adminLogin(
   username: string,
   password: string
-): Promise<{ success: boolean; token?: string; message?: string }> {
+): Promise<{
+  success: boolean;
+  token?: string;
+  user?: {
+    id: number;
+    username: string;
+    email: string;
+    role: string;
+  };
+  must_reset_password?: boolean;
+  message?: string;
+}> {
   try {
     const response = await fetch(`${ADMIN_API_BASE_URL}/login`, {
       method: "POST",
@@ -18,6 +29,49 @@ export async function adminLogin(
   } catch (error) {
     console.error("Error logging in:", error);
     return { success: false, message: "Login failed" };
+  }
+}
+
+export async function adminLogout(
+  token: string
+): Promise<{ success: boolean; message?: string }> {
+  try {
+    const response = await fetch(`${ADMIN_API_BASE_URL}/logout`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error logging out:", error);
+    return { success: false, message: "Logout failed" };
+  }
+}
+
+export async function changePassword(
+  token: string,
+  currentPassword: string,
+  newPassword: string
+): Promise<{ success: boolean; message?: string }> {
+  try {
+    const response = await fetch(`${ADMIN_API_BASE_URL}/change-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        current_password: currentPassword,
+        new_password: newPassword,
+      }),
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error changing password:", error);
+    return { success: false, message: "Password change failed" };
   }
 }
 

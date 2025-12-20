@@ -16,6 +16,7 @@ include_once 'config/database.php';
 include_once 'models/Category.php';
 include_once 'models/Product.php';
 include_once 'models/Blog.php';
+include_once 'models/User.php';
 include_once 'controllers/CategoryController.php';
 include_once 'controllers/ProductController.php';
 include_once 'controllers/BlogController.php';
@@ -23,6 +24,7 @@ include_once 'controllers/AuthController.php';
 include_once 'controllers/AdminCategoryController.php';
 include_once 'controllers/AdminProductController.php';
 include_once 'controllers/AdminBlogController.php';
+include_once 'controllers/AdminUserController.php';
 
 // Instantiate database
 $database = new Database();
@@ -152,11 +154,34 @@ function handleAdminRoutes($db, $request_method, $uri_parts)
         exit();
     }
 
+    // Handle logout endpoint (authentication required)
+    if (count($uri_parts) > 0 && $uri_parts[0] === 'logout') {
+        if ($request_method === 'POST') {
+            $authController->logout();
+        } else {
+            http_response_code(405);
+            echo json_encode(array("success" => false, "message" => "Method not allowed."));
+        }
+        exit();
+    }
+
+    // Handle password change endpoint (authentication required)
+    if (count($uri_parts) > 0 && $uri_parts[0] === 'change-password') {
+        if ($request_method === 'POST') {
+            $authController->changePassword();
+        } else {
+            http_response_code(405);
+            echo json_encode(array("success" => false, "message" => "Method not allowed."));
+        }
+        exit();
+    }
+
     // Validate token for all other admin endpoints
     $headers = getallheaders();
     $token = isset($headers['Authorization']) ? str_replace('Bearer ', '', $headers['Authorization']) : null;
 
-    if (!$authController->validateToken($token)) {
+    $currentUser = $authController->validateToken($token);
+    if (!$currentUser) {
         http_response_code(401);
         echo json_encode(array("success" => false, "message" => "Unauthorized."));
         exit();
@@ -168,14 +193,23 @@ function handleAdminRoutes($db, $request_method, $uri_parts)
         echo json_encode(array(
             "success" => true,
             "message" => "Admin API is running",
+            "user" => array(
+                "username" => $currentUser['username'],
+                "role" => $currentUser['role']
+            ),
             "endpoints" => array(
                 "login" => "POST /admin/login",
+                "logout" => "POST /admin/logout",
+                "change_password" => "POST /admin/change-password",
                 "categories" => "GET/POST /admin/categories",
                 "category" => "GET/PUT/DELETE /admin/categories/{id}",
                 "products" => "GET/POST /admin/products",
                 "product" => "GET/PUT/DELETE /admin/products/{id}",
                 "blogs" => "GET/POST /admin/blogs",
-                "blog" => "GET/PUT/DELETE /admin/blogs/{id}"
+                "blog" => "GET/PUT/DELETE /admin/blogs/{id}",
+                "users" => "GET/POST /admin/users (admin only)",
+                "user" => "GET/PUT/DELETE /admin/users/{id} (admin only)",
+                "reset_password" => "POST /admin/users/{id}/reset-password (admin only)"
             )
         ));
         exit();
@@ -183,6 +217,13 @@ function handleAdminRoutes($db, $request_method, $uri_parts)
 
     // Categories routing
     if ($uri_parts[0] === 'categories') {
+        // Require editor or admin role
+        if (!in_array($currentUser['role'], ['admin', 'editor'])) {
+            http_response_code(403);
+            echo json_encode(array("success" => false, "message" => "Forbidden. Insufficient permissions."));
+            exit();
+        }
+
         $adminController = new AdminCategoryController($db);
 
         if ($request_method === 'GET') {
@@ -205,6 +246,13 @@ function handleAdminRoutes($db, $request_method, $uri_parts)
     }
     // Products routing
     elseif ($uri_parts[0] === 'products') {
+        // Require editor or admin role
+        if (!in_array($currentUser['role'], ['admin', 'editor'])) {
+            http_response_code(403);
+            echo json_encode(array("success" => false, "message" => "Forbidden. Insufficient permissions."));
+            exit();
+        }
+
         $adminController = new AdminProductController($db);
 
         if ($request_method === 'GET') {
@@ -227,6 +275,7 @@ function handleAdminRoutes($db, $request_method, $uri_parts)
     }
     // Blogs routing
     elseif ($uri_parts[0] === 'blogs') {
+        // Content creators can create/edit blogs, but only editors/admins can delete
         $adminController = new AdminBlogController($db);
 
         if ($request_method === 'GET') {
@@ -241,7 +290,50 @@ function handleAdminRoutes($db, $request_method, $uri_parts)
         } elseif ($request_method === 'PUT' && isset($uri_parts[1]) && is_numeric($uri_parts[1])) {
             $adminController->update($uri_parts[1]);
         } elseif ($request_method === 'DELETE' && isset($uri_parts[1]) && is_numeric($uri_parts[1])) {
+            // Only editors and admins can delete blogs
+            if (!in_array($currentUser['role'], ['admin', 'editor'])) {
+                http_response_code(403);
+                echo json_encode(array("success" => false, "message" => "Forbidden. Only editors and admins can delete blogs."));
+                exit();
+            }
             $adminController->delete($uri_parts[1]);
+        } else {
+            http_response_code(405);
+            echo json_encode(array("success" => false, "message" => "Method not allowed."));
+        }
+    }
+    // Users routing (admin only)
+    elseif ($uri_parts[0] === 'users') {
+        // Only admins can manage users
+        if ($currentUser['role'] !== 'admin') {
+            http_response_code(403);
+            echo json_encode(array("success" => false, "message" => "Forbidden. Admin access required."));
+            exit();
+        }
+
+        $userController = new AdminUserController($db);
+
+        // Handle password reset endpoint: /admin/users/{id}/reset-password
+        if (
+            $request_method === 'POST' &&
+            isset($uri_parts[1]) && is_numeric($uri_parts[1]) &&
+            isset($uri_parts[2]) && $uri_parts[2] === 'reset-password'
+        ) {
+            $userController->resetPassword($uri_parts[1]);
+        }
+        // Handle standard CRUD operations
+        elseif ($request_method === 'GET') {
+            if (isset($uri_parts[1]) && is_numeric($uri_parts[1])) {
+                $userController->getById($uri_parts[1]);
+            } else {
+                $userController->getAll();
+            }
+        } elseif ($request_method === 'POST') {
+            $userController->create();
+        } elseif ($request_method === 'PUT' && isset($uri_parts[1]) && is_numeric($uri_parts[1])) {
+            $userController->update($uri_parts[1]);
+        } elseif ($request_method === 'DELETE' && isset($uri_parts[1]) && is_numeric($uri_parts[1])) {
+            $userController->delete($uri_parts[1]);
         } else {
             http_response_code(405);
             echo json_encode(array("success" => false, "message" => "Method not allowed."));

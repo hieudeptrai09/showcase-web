@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, User } from "lucide-react";
+import { Lock, User, AlertCircle } from "lucide-react";
 import { adminLogin } from "@/lib/adminApi";
 
 export default function AdminLoginPage() {
@@ -20,13 +20,25 @@ export default function AdminLoginPage() {
     try {
       const result = await adminLogin(username, password);
 
-      if (result.success && result.token) {
+      if (result.success && result.token && result.user) {
+        // Store authentication data
         localStorage.setItem("adminToken", result.token);
-        router.push("/admin/dashboard");
+        localStorage.setItem("adminUser", JSON.stringify(result.user));
+
+        // Check if password reset is required
+        if (result.must_reset_password) {
+          localStorage.setItem("mustResetPassword", "true");
+          router.push("/admin/change-password");
+        } else {
+          router.push("/admin/dashboard");
+        }
       } else {
-        setError(result.message || "Login failed");
+        setError(
+          result.message || "Login failed. Please check your credentials."
+        );
       }
     } catch (err) {
+      console.error("Login error:", err);
       setError("An error occurred. Please try again.");
     } finally {
       setLoading(false);
@@ -41,12 +53,13 @@ export default function AdminLoginPage() {
             <Lock size={32} />
           </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Admin Login</h1>
-          <p className="text-gray-600">Access the admin dashboard</p>
+          <p className="text-gray-600">Chiến Hòa - Management System</p>
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
-            {error}
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 flex items-start">
+            <AlertCircle size={20} className="mr-2 mt-0.5 shrink-0" />
+            <span>{error}</span>
           </div>
         )}
 
@@ -65,8 +78,9 @@ export default function AdminLoginPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="Enter username"
+                placeholder="Enter your username"
                 required
+                autoFocus
               />
             </div>
           </div>
@@ -85,7 +99,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="Enter password"
+                placeholder="Enter your password"
                 required
               />
             </div>
@@ -99,12 +113,6 @@ export default function AdminLoginPage() {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            Default credentials: admin / admin123
-          </p>
-        </div>
       </div>
     </div>
   );
