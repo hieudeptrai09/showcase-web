@@ -128,16 +128,19 @@ export default function AdminDashboardLayout({
         {/* User Info */}
         {currentUser && (
           <div className="px-6 py-4 bg-gray-800 border-y border-gray-700">
-            <div className="flex items-center space-x-3">
-              <div className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center">
+            <div className="flex items-start space-x-3">
+              <div className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center shrink-0">
                 <UserIcon size={20} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold truncate">
+                <p className="text-sm font-semibold text-white truncate">
                   {currentUser.username}
                 </p>
+                <p className="text-xs text-gray-400 truncate mt-0.5">
+                  {currentUser.email}
+                </p>
                 <span
-                  className={`inline-block px-2 py-0.5 text-xs rounded-full ${getRoleBadgeColor(
+                  className={`inline-block px-2 py-0.5 text-xs rounded-full mt-2 ${getRoleBadgeColor(
                     currentUser.role
                   )}`}
                 >

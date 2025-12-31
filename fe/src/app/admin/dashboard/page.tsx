@@ -116,7 +116,7 @@ export default function AdminDashboardPage() {
   const getRoleDescription = (role: string) => {
     switch (role) {
       case "admin":
-        return "Full system access including user management (database only)";
+        return "Full system access";
       case "editor":
         return "Can manage products, categories, and blogs";
       case "content":
@@ -138,7 +138,7 @@ export default function AdminDashboardPage() {
       {/* User Role Info */}
       {currentUser && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-          <div className="flex items-start space-x-4">
+          <div className="flex items-center space-x-4">
             <div className="bg-primary text-white p-3 rounded-lg">
               <Shield size={24} />
             </div>
@@ -147,18 +147,9 @@ export default function AdminDashboardPage() {
                 Your Role:{" "}
                 <span className="text-primary">{currentUser.role}</span>
               </h3>
-              <p className="text-gray-600 mb-3">
+              <p className="text-gray-600">
                 {getRoleDescription(currentUser.role)}
               </p>
-              <div className="text-sm text-gray-500">
-                <p>Email: {currentUser.email}</p>
-                {currentUser.role !== "admin" && (
-                  <p className="mt-2 text-yellow-700">
-                    Note: User management is only available to administrators
-                    through direct database access.
-                  </p>
-                )}
-              </div>
             </div>
           </div>
         </div>
